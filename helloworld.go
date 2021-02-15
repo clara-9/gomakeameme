@@ -4,6 +4,12 @@ import (
 	"fmt"
 	"os"
 
+   "io/ioutil"
+   "log"
+   "net/http"
+   "bytes"
+   "encoding/json"
+
 	"github.com/dghubble/go-twitter/twitter"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/clientcredentials"
@@ -58,4 +64,25 @@ func main() {
 
    // user timeline
    getUserTimeline("hacktheurban", client)
+
+
+   postBody, _ := json.Marshal(map[string]string{
+      "name":  "Toby",
+      "email": "Toby@example.com",
+   })
+   responseBody := bytes.NewBuffer(postBody)
+
+   resp, err := http.Post("https://api.imgflip.com/caption_image?template_id=102156234&text0=hello&text1=bye&username=clarara&password=password","application/json", responseBody)
+   //Handle Error
+   if err != nil {
+      log.Fatalf("An Error Occured %v", err)
+   }
+   defer resp.Body.Close()
+//Read the response body
+   body, err := ioutil.ReadAll(resp.Body)
+   if err != nil {
+      log.Fatalln(err)
+   }
+   sb := string(body)
+   log.Printf(sb)
 }
