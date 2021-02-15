@@ -39,6 +39,34 @@ func getTextFromTweet(tweet *twitter.Tweet){
    fmt.Println(tweet.Text)
 }
 
+func spongeBobText(text string) (string, string) {
+   text0 := "hello"
+   text1 := "bye"
+   fmt.Println(text0,text1)
+   return text0, text1
+}
+
+func getMeme(text0, text1 string){
+   postBody, _ := json.Marshal(map[string]string{})
+   responseBody := bytes.NewBuffer(postBody)
+
+   url := fmt.Sprintf("https://api.imgflip.com/caption_image?template_id=102156234&text0=%s&text1=%s&username=clarara&password=%s",
+            text0, text1, os.Getenv("IMGFLIP_PASSWORD"))
+   resp, err := http.Post(url,"application/json", responseBody)
+   //Handle Error
+   if err != nil {
+      log.Fatalf("An Error Occured %v", err)
+   }
+   defer resp.Body.Close()
+//Read the response body
+   body, err := ioutil.ReadAll(resp.Body)
+   if err != nil {
+      log.Fatalln(err)
+   }
+   sb := string(body)
+   log.Printf(sb)
+}
+
 func main() {
 	
    consumerKey:= os.Getenv("TWITTER_CONSUMER_KEY")
@@ -65,24 +93,8 @@ func main() {
    // user timeline
    getUserTimeline("hacktheurban", client)
 
+   //spongebobText
+   text0,text1 := spongeBobText("hello")
 
-   postBody, _ := json.Marshal(map[string]string{
-      "name":  "Toby",
-      "email": "Toby@example.com",
-   })
-   responseBody := bytes.NewBuffer(postBody)
-
-   resp, err := http.Post("https://api.imgflip.com/caption_image?template_id=102156234&text0=hello&text1=bye&username=clarara&password=password","application/json", responseBody)
-   //Handle Error
-   if err != nil {
-      log.Fatalf("An Error Occured %v", err)
-   }
-   defer resp.Body.Close()
-//Read the response body
-   body, err := ioutil.ReadAll(resp.Body)
-   if err != nil {
-      log.Fatalln(err)
-   }
-   sb := string(body)
-   log.Printf(sb)
+   getMeme(text0, text1)
 }
