@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
-	"os"
+   "fmt"
+   "os"
 
    "io/ioutil"
    "log"
@@ -10,9 +10,9 @@ import (
    "bytes"
    "encoding/json"
 
-	"github.com/dghubble/go-twitter/twitter"
-	"golang.org/x/oauth2"
-	"golang.org/x/oauth2/clientcredentials"
+   "github.com/dghubble/go-twitter/twitter"
+   "golang.org/x/oauth2"
+   "golang.org/x/oauth2/clientcredentials"
 )
 
 func getStatus(statusNum int64, client *twitter.Client){
@@ -95,6 +95,9 @@ func main() {
 
    //spongebobText
    text0,text1 := spongeBobText("hello")
+   
+   text0="in mimi"
+   text1="pil riul"
 
    getMeme(text0, text1)
 }
