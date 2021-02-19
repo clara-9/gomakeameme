@@ -1,2 +1,2 @@
-# gospongebob
-Twitter bot replying with the Spongebob meme
+# GoMakeAMeme
+Whatsapp bot replying all messages with the Spongebob meme.
